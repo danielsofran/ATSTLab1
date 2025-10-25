@@ -1,0 +1,25 @@
+{
+  "name": "lab1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "playwright": "npx playwright test --headed --project=chromium --ui",
+    "cucumber": "cucumber-js test",
+    "codegen": "npx playwright codegen --target=cucumber-js http://qa1.dev.evozon.com/",
+    "report": "ts-node generate-report.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.1",
+    "multiple-cucumber-html-reporter": "^3.9.3",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.2.0",
+    "playwright-cucumber": "^1.0.15"
+  }
+}
