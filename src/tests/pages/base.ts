@@ -24,14 +24,9 @@ export class BasePage {
     await this.page.goto('http://qa1.dev.evozon.com/');
   }
 
-  async gotoMenuSection(section: string) {
-    const item = await this.hoverOverLink(section, true);
-    await item.click();
-    return item;
-  }
-
   async selectSubSection(section: string, subSection: string) {
-    await this.hoverOverLink(section, true);
+    const menuItem = this.page.locator("#nav").getByRole('link', { name: section, exact: true })
+    await menuItem.hover()
     const subItem = this.page.getByRole('link', { name: subSection, exact: true });
     await subItem.click();
     return subItem;
@@ -77,6 +72,11 @@ export class BasePage {
     if (await logoutLink.isVisible()) {
       await logoutLink.click();
     }
+  }
+
+  async search(keyword: string) {
+    await this.searchBox.fill(keyword);
+    await this.searchButton.click();
   }
 
   private async hoverOverLink(linkText: string, exact?: boolean) {

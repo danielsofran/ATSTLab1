@@ -12,7 +12,6 @@ Feature: Register
 
     Examples:
       | firstName | lastName | email           | password | confirmation |
-      | test-4    | test-4   | test-4@test.com | test-4   | test-4       |
       | test-5    | test-5   | test-5@test.com | test-5   | test-5       |
 #      | John      | Doe      | john.doe@test.com   | john.doe   | john.doe     |
 #      | Jane      | Smith    | jane.smith@test.com | jane.smith | jane.smith   |

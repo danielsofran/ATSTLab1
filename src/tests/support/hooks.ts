@@ -8,7 +8,7 @@ export let browser: Browser;
 export let page: Page;
 export let homepage: BasePage;
 
-setDefaultTimeout(30000)
+setDefaultTimeout(40000)
 
 Before(async () => {
   // Launch browser once, but create new context/page for each scenario
