@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "playwright": "npx playwright test --headed --project=chromium --ui",
+    "playwright": "npx playwright test --headed --project=chromium",
     "cucumber": "cucumber-js test",
     "codegen": "npx playwright codegen --target=cucumber-js http://qa1.dev.evozon.com/",
     "report": "ts-node generate-report.ts"
@@ -14,7 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@types/adm-zip": "^0.5.7",
     "@types/node": "^24.9.1",
+    "adm-zip": "^0.5.16",
     "multiple-cucumber-html-reporter": "^3.9.3",
     "ts-node": "^10.9.2"
   },

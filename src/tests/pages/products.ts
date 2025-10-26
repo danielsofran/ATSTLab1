@@ -51,7 +51,7 @@ export class ProductItem {
   }
 
   async getColors() {
-    const ul = this.baseLocator.locator('ul.configurable-swatch-list');
+    const ul = this.baseLocator.locator('ul.configurable-swatch-list li');
     // now get all li classes and remove the option- prefix
     return await getSwatchOptions(ul);
   }
