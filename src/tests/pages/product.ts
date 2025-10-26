@@ -3,9 +3,6 @@ import {Locator, Page} from "@playwright/test"
 import {getSwatchOptions, selectSwatchOption} from "../support/hooks"
 
 export class ProductPage extends BasePage {
-  readonly zoomContainer: Locator
-  readonly zoomedImage: Locator
-
   readonly productInfoContainer: Locator
   readonly colors: Locator
   readonly sizes: Locator
@@ -16,10 +13,14 @@ export class ProductPage extends BasePage {
   readonly addToWishlistButton: Locator
   readonly addToCompareButton: Locator
 
+  readonly zoomContainer: Locator
+  readonly zoomedImage: Locator
+
+  private readonly existingPics: Locator
+  readonly thumbnails: Locator
+
   constructor(page: Page) {
     super(page)
-    this.zoomContainer = this.page.locator('.zoomContainer')
-    this.zoomedImage = this.zoomContainer.locator('.zoomWindowContainer .zoomWindow')
     this.quantityBox = this.page.getByRole('textbox', {name: /Qty/})
     this.addToCartButton = this.page.getByRole('button', {name: 'Add to Cart'})
     this.addToWishlistButton = this.page.getByRole('link', {name: 'Add to Wishlist'})
@@ -27,6 +28,13 @@ export class ProductPage extends BasePage {
     this.productInfoContainer = this.page.locator('#product-options-wrapper')
     this.colors = this.page.locator("#configurable_swatch_color li")
     this.sizes = this.page.locator("#configurable_swatch_size li")
+
+    this.zoomContainer = this.page.locator('.zoomContainer')
+    this.zoomedImage = this.zoomContainer.locator('.zoomWindowContainer .zoomWindow')
+
+    const existingPicsContainer = this.page.locator('.product-img-box .product-image-gallery')
+    this.existingPics = existingPicsContainer.locator('img.gallery-image')
+    this.thumbnails = this.page.locator('ul.product-image-thumbs').locator('li')
   }
 
   async canZoomImage(): Promise<boolean> {
@@ -100,5 +108,39 @@ export class ProductPage extends BasePage {
       messages.push(msg)
     }
     return messages
+  }
+
+  async getExistingPictureSources(): Promise<string[]> {
+    const sources: string[] = []
+    const count = await this.existingPics.count()
+    for (let i = 1; i < count; i++) { // ignore the main image at index 0
+      const src = await this.existingPics.nth(i).getAttribute('src')
+      if (src && !sources.includes(src)) {
+        sources.push(src)
+      }
+    }
+    return sources
+  }
+
+  async getThumbnailSources(): Promise<string[]> {
+    const sources: string[] = []
+    const count = await this.thumbnails.count()
+    for (let i = 0; i < count; i++) {
+      const src = await this.thumbnails.nth(i).locator('a.thumb-link img').getAttribute('src')
+      if (src) {
+        sources.push(src)
+      }
+    }
+    return sources
+  }
+
+  async clickOnThumbnail(index: number) {
+    const thumbnail = this.thumbnails.nth(index)
+    await thumbnail.click()
+  }
+
+  async getMainImageSource(): Promise<string | null> {
+    const image = this.page.locator('#image-main')
+    return await image.getAttribute('src')
   }
 }
