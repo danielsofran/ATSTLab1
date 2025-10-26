@@ -127,7 +127,7 @@ export class ProductPage extends BasePage {
     const count = await this.thumbnails.count()
     for (let i = 0; i < count; i++) {
       const src = await this.thumbnails.nth(i).locator('a.thumb-link img').getAttribute('src')
-      if (src) {
+      if (src !== null) {
         sources.push(src)
       }
     }

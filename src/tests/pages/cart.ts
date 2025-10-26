@@ -35,11 +35,13 @@ export class CartItem {
 export class CartPage extends BasePage {
   readonly messagesContainer: Locator
   readonly cartItemsContainer: Locator
+  readonly columns: Locator
 
   constructor(page: Page) {
     super(page)
     this.messagesContainer = this.page.locator('.main-container .main .messages')
     this.cartItemsContainer = this.page.locator('#shopping-cart-table tbody')
+    this.columns = this.page.locator('#shopping-cart-table colgroup')
   }
 
   async getMessages() {
@@ -64,5 +66,18 @@ export class CartPage extends BasePage {
       items.push(item);
     }
     return items;
+  }
+
+  async areColumnsFittedToContent(): Promise<boolean> {
+    const colCount = await this.columns.locator('col').count();
+    for (let i = 0; i < colCount; i++) {
+      const col = this.columns.locator('col').nth(i);
+      const width = await col.getAttribute('width');
+      if (width !== '1') {
+        console.warn(`Column ${i+1} has width attribute set to ${width} instead of auto-fitting to content.`);
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -74,3 +74,30 @@ Then('The cart should contain the product', async function () {
   expect(itemData.price).toBe(productData.price)
   expect(itemData.subtotal).toBe(productData.price)
 })
+
+Then('I should be able to view images of the product in the thumbnail gallery', async function () {
+  productPage = new ProductPage(page)
+  const existingPicsSources = await productPage.getExistingPictureSources()
+  const thumbnailPicsSources = await productPage.getThumbnailSources()
+  expect(thumbnailPicsSources.length).toBe(existingPicsSources.length)
+  for (let i = 0; i < thumbnailPicsSources.length; i++) {
+    expect(thumbnailPicsSources[i]).toBe(existingPicsSources[i]) // offset by 1 to exclude main image
+  }
+})
+
+When('I click the {int}nth image from the thumbnail gallery', async function (index: number) {
+  productPage = new ProductPage(page)
+  await productPage.clickOnThumbnail(index - 1)
+})
+
+Then('I should see the {int}nth image in the main image viewer', async function (index: number) {
+  productPage = new ProductPage(page)
+  const existingPicsSources = await productPage.getExistingPictureSources()
+  const mainImageSrc = await productPage.getMainImageSource()
+  expect(mainImageSrc).toBe(existingPicsSources[index])
+})
+
+Then('The cart columns should fit to their content', async function () {
+  const cartPage = new CartPage(page)
+  expect(await cartPage.areColumnsFittedToContent()).toBeTruthy()
+})

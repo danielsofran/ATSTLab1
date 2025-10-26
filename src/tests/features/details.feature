@@ -15,11 +15,23 @@ Feature: View a product's details
     And I select the size XS and color Indigo from the details page
     And I click the "Add to Cart" button from the details page
     Then The cart should contain the product
+    And The cart columns should fit to their content
 
   Scenario: Zoom in a product's picture
     When I search for a product with the keyword "shirt"
     And I view the 1nth product details
     Then I should be able to zoom in the product's picture
+
+  Scenario: View images of a product in thumbnail gallery
+    When I search for a product with the keyword "shirt"
+    And I view the 1nth product details
+    Then I should be able to view images of the product in the thumbnail gallery
+
+  Scenario: View complete information of a product
+    When I search for a product with the keyword "shirt"
+    And I view the 1nth product details
+    And I click the 1nth image from the thumbnail gallery
+    Then I should see the 1nth image in the main image viewer
 
 #    Then I should see the following information on the details page:
 #      | property     | value                                                                                          |
