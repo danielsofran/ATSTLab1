@@ -1,5 +1,6 @@
 import {BasePage} from "./base"
 import {Locator, Page} from "@playwright/test"
+import {getSwatchOptions} from "../support/hooks"
 
 export class ProductItem {
   private readonly baseLocator: Locator
@@ -52,26 +53,22 @@ export class ProductItem {
   async getColors() {
     const ul = this.baseLocator.locator('ul.configurable-swatch-list');
     // now get all li classes and remove the option- prefix
-    const colors = [];
-    const count = await ul.locator('li').count();
-    for (let i = 0; i < count; i++) {
-      const li = ul.locator('li').nth(i);
-      const classAttr = await li.getAttribute('class');
-      if (classAttr) {
-        const classes = classAttr.split(' ');
-        for (const cls of classes) {
-          if (cls.startsWith('option-')) {
-            const color = cls.replace('option-', '').replace('-', ' ');
-            colors.push(color)
-          }
-        }
-      }
+    return await getSwatchOptions(ul);
+  }
+
+  async extractData() {
+    return {
+      name: await this.getName(),
+      price: await this.getPrice(),
+      oldPrice: await this.getOldPrice(),
+      rating: await this.getRating(),
+      colors: await this.getColors(),
     }
-    return colors;
   }
 
   async viewDetails() {
     await this.baseLocator.locator('.product-info .product-name a').click();
+    await this.baseLocator.page().waitForLoadState('networkidle');
   }
 
   async addToWishlist() {

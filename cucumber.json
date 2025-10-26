@@ -17,9 +17,9 @@
     ],
     "format": [
       "progress-bar",
+      "pretty",
       "json:reports/cucumber-report.json",
-      "html:reports/cucumber-raw.html",
-      "pretty:reports/cucumber-pretty.txt"
+      "html:reports/cucumber-raw.html"
     ]
   }
 }

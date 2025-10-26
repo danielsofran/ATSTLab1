@@ -1,14 +1,5 @@
 import {Page, expect, Locator} from "@playwright/test"
 
-export enum MenuSections {
-  WOMEN = 'WOMEN',
-  MEN = 'MEN',
-  ACCESSORIES = 'ACCESSORIES',
-  HOME_DECOR = 'HOME & DECOR',
-  SALE = 'SALE',
-  VIP = 'VIP'
-}
-
 export class BasePage {
   readonly page: Page;
   readonly searchBox: Locator;
@@ -18,10 +9,6 @@ export class BasePage {
     this.page = page;
     this.searchBox = this.page.getByRole('searchbox', { name: 'Search' });
     this.searchButton = this.page.getByRole('button', { name: 'Search' });
-  }
-
-  async navigateToHomepage() {
-    await this.page.goto('http://qa1.dev.evozon.com/');
   }
 
   async selectSubSection(section: string, subSection: string) {
@@ -77,11 +64,5 @@ export class BasePage {
   async search(keyword: string) {
     await this.searchBox.fill(keyword);
     await this.searchButton.click();
-  }
-
-  private async hoverOverLink(linkText: string, exact?: boolean) {
-    const link = this.page.getByRole('link', { name: linkText, exact: exact });
-    await link.hover();
-    return link;
   }
 }
