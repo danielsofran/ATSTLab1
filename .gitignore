@@ -1,5 +1,5 @@
 .idea
-reports
+cucumber-report
 
 # Playwright
 node_modules/

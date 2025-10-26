@@ -7,7 +7,8 @@
     "playwright": "npx playwright test --headed --project=chromium",
     "cucumber": "cucumber-js test",
     "codegen": "npx playwright codegen --target=cucumber-js http://qa1.dev.evozon.com/",
-    "report": "ts-node generate-report.ts"
+    "report": "ts-node generate-report.ts",
+    "archive": "ts-node archiver.ts"
   },
   "keywords": [],
   "author": "",
